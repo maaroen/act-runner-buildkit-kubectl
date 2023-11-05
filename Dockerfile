@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM ghcr.io/catthehacker/ubuntu:act-latest
+FROM ghcr.io/catthehacker/ubuntu:act-latest
 #ARG TARGETPLATFORM
 #ARG ARCHITECTURE=amd64
 #ENV ARCHITECTURE $ARCHITECTURE
