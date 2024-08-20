@@ -6,3 +6,12 @@ RUN curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --d
 RUN echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
 RUN apt-get update && apt-get install -y kubectl
 RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash && mv kustomize /usr/local/bin
+
+# Install Docker-ce-cli
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - ;\
+    add-apt-repository "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" ;\
+    DEBIAN_FRONTEND=noninteractive apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends docker-ce-cli docker-buildx-plugin iproute2 \
+    && DEBIAN_FRONTEND=noninteractive apt-get clean
+
+RUN docker buildx create --name remote-buildkit --use --bootstrap --driver remote tcp://localhost:1234
