@@ -13,5 +13,3 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - ;\
     DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends docker-ce-cli docker-buildx-plugin iproute2 \
     && DEBIAN_FRONTEND=noninteractive apt-get clean
-
-RUN docker buildx create --name remote-buildkit --use --bootstrap --driver remote tcp://localhost:1234
